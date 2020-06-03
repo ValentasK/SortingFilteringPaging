@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SortingFilteringPaging.Data;
 
 namespace SortingFilteringPaging.Migrations
 {
     [DbContext(typeof(SortingFilteringPagingContext))]
-    partial class SortingFilteringPagingContextModelSnapshot : ModelSnapshot
+    [Migration("20200603135542_cusomerErroMessages")]
+    partial class cusomerErroMessages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
