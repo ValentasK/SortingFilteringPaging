@@ -15,11 +15,11 @@
 <form  asp-action="Index" method="get">
     <div class="form-row align-items-center">
         <div class="col-auto">
-            <input type="text" name="SearchString" class="form-control mb-2 d-inline" placeholder="...Search" />
+            <input type="text" name="SearchString"  class="form-control mb-2 d-inline" value="@ViewBag.SearchString" placeholder="...Search" />
         </div>
 
         <div class="col-auto">
-            <input type="submit" name="" value="Search" class="btn btn-success mb-2" />
+            <input type="submit" onclick="SearchReset()" name="" value="Search" class="btn btn-success mb-2" />
         </div>
 
         <div class="dropdown">
@@ -35,11 +35,13 @@
         </div>
 
         <div class="col-auto">
-            <input type="submit" name="Paging" value="Previous" class="btn btn-info mb-2" />
+            <input  id="SkipValue"  type="text" name="SkipValue" value="@ViewBag.SkipValue" class="btn btn-info mb-2" />
+            <input type="submit" name="Paging" value="Previous" class="btn btn-info mb-2" />           
         </div>
 
         <div class="col-auto">
             <input type="submit" name="Paging" value="Next" class="btn btn-info mb-2" />
+            <input type="text" name="SkipValue" value="@ViewBag.SkipValue" class="btn btn-info mb-2" />
         </div>
 
     </div>
@@ -117,3 +119,13 @@
 }
     </tbody>
 </table>
+
+
+<script>
+
+    function SearchReset() {
+        document.querySelector("#SkipValue").value = 0;
+        
+    }
+
+</script>

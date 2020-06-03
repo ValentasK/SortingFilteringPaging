@@ -20,21 +20,45 @@ namespace SortingFilteringPaging.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index(string SearchString, int Paging, int ItemsInPage = 25 )
+        public async Task<IActionResult> Index(string SearchString, string Paging, int ItemsInPage = 25, int SkipValue = 0)
         {
-            ViewBag.ItemsPerPage = ItemsInPage;
+            int skip = SkipValue;
+
+            if (!String.IsNullOrEmpty(Paging))
+            {
+                if (Paging == "Next")
+                {
+                    skip = skip + ItemsInPage;
+                }
+                if (Paging == "Previous")
+                {
+                    if (skip - ItemsInPage >= 0)
+                    {
+                        skip = skip - ItemsInPage;
+                    }
+
+                }
+            }
+
+            ViewBag.SkipValue = skip;
+
+            ViewBag.ItemsPerPage = ItemsInPage; // sends items per page to view 
+
+            ViewBag.SearchString = SearchString;
 
             ViewBag.allRecords = _context.Customer.Count(); // get the number of all the records
 
-            List<Customer> customers = new List<Customer>(); // create new list of customers 
-
-            customers = _context.Customer.Take(ItemsInPage).ToList(); // takes first 20 records 
+            List<Customer> customers = new List<Customer>(); // create new list of customers          
 
             if (!String.IsNullOrEmpty(SearchString))
             {
                 customers = _context.Customer.Where(x =>
                 x.FirstName.ToLower().Contains(SearchString.ToLower()) ||
-                x.LastName.ToLower().Contains(SearchString.ToLower())).Take(ItemsInPage).ToList();
+                x.LastName.ToLower().Contains(SearchString.ToLower())).Skip(skip).Take(ItemsInPage).ToList();
+            }
+            else
+            {
+                customers = _context.Customer.Skip(skip).Take(ItemsInPage).ToList(); // takes first 20 records 
             }
 
 
