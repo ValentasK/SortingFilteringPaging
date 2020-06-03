@@ -20,9 +20,28 @@ namespace SortingFilteringPaging.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string SearchString, int Paging, int ItemsInPage = 25 )
         {
-            return View(await _context.Customer.ToListAsync());
+            ViewBag.ItemsPerPage = ItemsInPage;
+
+            ViewBag.allRecords = _context.Customer.Count(); // get the number of all the records
+
+            List<Customer> customers = new List<Customer>(); // create new list of customers 
+
+            customers = _context.Customer.Take(ItemsInPage).ToList(); // takes first 20 records 
+
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+                customers = _context.Customer.Where(x =>
+                x.FirstName.ToLower().Contains(SearchString.ToLower()) ||
+                x.LastName.ToLower().Contains(SearchString.ToLower())).Take(ItemsInPage).ToList();
+            }
+
+
+
+            // return View(await _context.Customer.ToListAsync());
+
+            return View(customers);
         }
 
         // GET: Customers/Details/5
