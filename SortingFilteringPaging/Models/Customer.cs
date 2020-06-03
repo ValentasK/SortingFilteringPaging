@@ -18,22 +18,23 @@ namespace SortingFilteringPaging.Models
         [Required(ErrorMessage = "Gender is required")]
         [MaxLength(6)]
         public string MaleFemale { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Age is requires")]
         [Range(16,110, ErrorMessage ="Age must be between 16 and 110")]
         public int Age { get; set; }
+        [Required(ErrorMessage ="Phone number is required")]
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
-        [Required]
-        [DataType(DataType.EmailAddress,ErrorMessage ="Email Address is required")]
+        [Required(ErrorMessage = "Email address is required")]
+        [DataType(DataType.EmailAddress)]
         public string EmailAddress { get; set; }
-        [Required]
-        [MaxLength(50,ErrorMessage ="City is required")]
+        [Required(ErrorMessage = "City is required")]
+        [MaxLength(50)]
         public string City { get; set; }
-        [Required]
-        [MaxLength(50, ErrorMessage = "Street is required")]
+        [Required(ErrorMessage = "Street is required")]
+        [MaxLength(50)]
         public string Street { get; set; }
-        [Required]
-        [MaxLength(6, ErrorMessage = "House number is required")]
+        [Required(ErrorMessage = "House number is required")]
+        [MaxLength(6)]
         public string HouseNr { get; set; }
     }
 }
