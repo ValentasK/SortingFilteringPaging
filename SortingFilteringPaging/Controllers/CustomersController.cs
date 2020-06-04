@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SortingFilteringPaging.Data;
 using SortingFilteringPaging.Models;
+using System.Linq.Dynamic.Core;
 
 namespace SortingFilteringPaging.Controllers
 {
@@ -20,7 +21,7 @@ namespace SortingFilteringPaging.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index(string SearchString, string Paging, int ItemsInPage = 25, int SkipValue = 0)
+        public async Task<IActionResult> Index(string SearchString, string Paging, string Sorting, int ItemsInPage = 25, int SkipValue = 0)
         {
             int skip = SkipValue;
 
@@ -40,25 +41,51 @@ namespace SortingFilteringPaging.Controllers
                 }
             }
 
-            ViewBag.SkipValue = skip;
+            ViewBag.SkipValue = skip; // sends current skipped pages number
 
             ViewBag.ItemsPerPage = ItemsInPage; // sends items per page to view 
 
-            ViewBag.SearchString = SearchString;
+            ViewBag.SearchString = SearchString; // sends searchstring to view 
 
             ViewBag.allRecords = _context.Customer.Count(); // get the number of all the records
+
+            ViewBag.Sorting = Sorting;
 
             List<Customer> customers = new List<Customer>(); // create new list of customers          
 
             if (!String.IsNullOrEmpty(SearchString))
             {
-                customers = _context.Customer.Where(x =>
-                x.FirstName.ToLower().Contains(SearchString.ToLower()) ||
-                x.LastName.ToLower().Contains(SearchString.ToLower())).Skip(skip).Take(ItemsInPage).ToList();
+                if (!String.IsNullOrEmpty(Sorting))
+                {
+                    customers = _context.Customer.Where(x =>
+                    x.FirstName.ToLower().Contains(SearchString.ToLower()) ||
+                    x.LastName.ToLower().Contains(SearchString.ToLower()) ||
+                   x.MaleFemale.ToLower().Contains(SearchString.ToLower()) ||
+                   x.Age.ToString().ToLower().Contains(SearchString.ToLower()) ||
+                   x.PhoneNumber.ToLower().Contains(SearchString.ToLower()) ||
+                   x.EmailAddress.ToLower().Contains(SearchString.ToLower()) ||
+                   x.City.ToLower().Contains(SearchString.ToLower()) ||
+                   x.Street.ToLower().Contains(SearchString.ToLower()) ||
+                   x.HouseNr.ToLower().Contains(SearchString.ToLower())).OrderBy(Sorting)
+                   .Skip(skip).Take(ItemsInPage).ToList();
+
+                }
+
             }
             else
             {
-                customers = _context.Customer.Skip(skip).Take(ItemsInPage).ToList(); // takes first 20 records 
+                if (!String.IsNullOrEmpty(Sorting))
+                {
+                    customers = _context.Customer.OrderBy(Sorting)
+                   .Skip(skip).Take(ItemsInPage).ToList();
+
+                }
+                else
+                {
+                    customers = _context.Customer.Skip(skip).Take(ItemsInPage).ToList(); // takes first 20 records 
+                }
+
+                
             }
 
 
