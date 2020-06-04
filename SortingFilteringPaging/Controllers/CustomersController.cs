@@ -21,7 +21,7 @@ namespace SortingFilteringPaging.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index(string SearchString, string Paging, string Sorting, int ItemsInPage = 25, int SkipValue = 0)
+        public async Task<IActionResult> Index(string SearchString, string Paging, string Sorting, int ItemsInPage = 25, int SkipValue = 0 )
         {
             int skip = SkipValue;
 
@@ -49,7 +49,7 @@ namespace SortingFilteringPaging.Controllers
 
             ViewBag.allRecords = _context.Customer.Count(); // get the number of all the records
 
-            ViewBag.Sorting = Sorting;
+            ViewBag.sorting = Sorting;
 
             List<Customer> customers = new List<Customer>(); // create new list of customers          
 

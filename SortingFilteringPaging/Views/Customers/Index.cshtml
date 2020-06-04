@@ -44,38 +44,41 @@
 
     </div>
 
-   
-    <p>@ViewBag.Sorting</p>
-   
+
+    <div>
+        <p>Sort by: @ViewBag.sorting</p>
+    </div>
+
+
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    <input type="submit" name="Sorting" value="@Html.DisplayNameFor(model => model.FirstName)" class="" />
+                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.FirstName)" class="" />
                 </th>
                 <th>
-                    <input type="submit" name="Sorting" value="@Html.DisplayNameFor(model => model.LastName)" class="" />
+                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.LastName)" class="" />
                 </th>
                 <th>
-                    <input type="submit" name="Sorting" value="@Html.DisplayNameFor(model => model.MaleFemale)" class="" />
+                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.MaleFemale)" class="" />
                 </th>
                 <th>
-                    <input type="submit" name="Sorting" value="@Html.DisplayNameFor(model => model.Age)" class="" />
+                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.Age)" class="" />
                 </th>
                 <th>
-                    <input type="submit" name="Sorting" value="@Html.DisplayNameFor(model => model.PhoneNumber)" class="" />
+                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.PhoneNumber)" class="" />
                 </th>
                 <th>
-                    <input type="submit" name="Sorting" value="@Html.DisplayNameFor(model => model.EmailAddress)" class="" />
+                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.EmailAddress)" class="" />
                 </th>
                 <th>
-                    <input type="submit" name="Sorting" value="@Html.DisplayNameFor(model => model.City)" class="" />
+                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.City)" class="" />
                 </th>
                 <th>
-                    <input type="submit" name="Sorting" value="@Html.DisplayNameFor(model => model.Street)" class="" />
+                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.Street)" class="" />
                 </th>
                 <th>
-                    <input type="submit" name="Sorting" value="@Html.DisplayNameFor(model => model.HouseNr)" class="" />
+                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.HouseNr)" class="" />
                 </th>
                 <th></th>
             </tr>
@@ -121,7 +124,7 @@
         </tbody>
     </table>
 
-
+    <input id="SortingValue" type="hidden" name="Sorting" value="@ViewBag.sorting" /> @*has to be in the very end to pass the value if no other sort by selected*@
 
 </form>
 
@@ -132,7 +135,18 @@
 
     function SearchReset() {
         document.querySelector("#SkipValue").value = 0;
+        document.querySelector("#SortingValue").value = null;
 
+    }
+
+    // Fuction to hide content
+    function HideContent() {
+        var x = document.querySelector(".DivToHide")
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
     }
 
 </script>
@@ -142,3 +156,5 @@
         width: 100px;
     }
 </style>
+
+
