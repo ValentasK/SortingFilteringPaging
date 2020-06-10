@@ -28,7 +28,6 @@ namespace SortingFilteringPaging.Controllers
             //_context.AddRange(sd.GeneratedCustomers(100259));
             //_context.SaveChanges();
             
-
             int skip = SkipValue;
             int totalRecords = _context.Customer.Count(); // get the number of all the records
             bool isItLastPage = false;
@@ -46,18 +45,14 @@ namespace SortingFilteringPaging.Controllers
                         {
                             skip = skip - ItemsInPage;
                         }
-
                     }                     
             }
-
 
             if (Page != 0)
             {
                 Page = Page - 1;
                 skip = Page * ItemsInPage;
             }
-
-
 
             List<Customer> customers = new List<Customer>(); // create new list of customers          
 
@@ -76,8 +71,6 @@ namespace SortingFilteringPaging.Controllers
                    x.Street.ToLower().Contains(SearchString.ToLower()) ||
                    x.HouseNr.ToLower().Contains(SearchString.ToLower())).OrderBy(Sorting)
                    .Skip(skip).Take(ItemsInPage).ToList();
-
-
                 }
                 else
                 {
@@ -92,7 +85,6 @@ namespace SortingFilteringPaging.Controllers
                     x.Street.ToLower().Contains(SearchString.ToLower()) ||
                     x.HouseNr.ToLower().Contains(SearchString.ToLower()))
                     .Skip(skip).Take(ItemsInPage).ToList();
-
                 }
 
                  totalRecords = _context.Customer.Where(x =>          // number of customers matching the search string
@@ -105,7 +97,6 @@ namespace SortingFilteringPaging.Controllers
                     x.City.ToLower().Contains(SearchString.ToLower()) ||
                     x.Street.ToLower().Contains(SearchString.ToLower()) ||
                     x.HouseNr.ToLower().Contains(SearchString.ToLower())).Count();
-
             }
             else
             {
@@ -113,14 +104,11 @@ namespace SortingFilteringPaging.Controllers
                 {
                     customers = _context.Customer.OrderBy(Sorting)
                    .Skip(skip).Take(ItemsInPage).ToList();
-
                 }
                 else
                 {
                     customers = _context.Customer.Skip(skip).Take(ItemsInPage).ToList(); // takes first 20 records 
-                }
-
-                
+                }             
             }
 
             isItLastPage = totalRecords <= ItemsInPage + skip ;
@@ -137,12 +125,6 @@ namespace SortingFilteringPaging.Controllers
                 LastPage = isItLastPage,
                 FirsPage = isItFirstPage
             };
-
-            //ViewBag.SkipValue = skip; // sends current skipped pages number
-            //ViewBag.ItemsPerPage = ItemsInPage; // sends items per page to view 
-            //ViewBag.SearchString = SearchString; // sends searchstring to view 
-            //ViewBag.sorting = Sorting;
-            //ViewBag.allRecords = totalRecords;
 
             return View(cvm);
         }

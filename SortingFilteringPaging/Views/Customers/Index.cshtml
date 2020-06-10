@@ -5,7 +5,6 @@
     ViewData["Title"] = "Index";
 }
 
-
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -43,9 +42,7 @@
                 int currentShowing = @Model.SkipValue + @Model.ItemsPerPage;
             }
             <h6>Current showing between: @Model.SkipValue and @currentShowing   </h6>
-
         </div>
-
     </div>
 
 
@@ -58,9 +55,7 @@
                 int j = @Model.SkipValue / @Model.ItemsPerPage;
                 int lastPage = @Model.AllRecords / Model.ItemsPerPage + 1;
             }
-
             @{
-
                 for (int i = j - 5; i < 8 + j; i++)
                 {
                     if (i > 0 && i < lastPage + 1)
@@ -68,21 +63,14 @@
                         if (i == @Model.SkipValue / @Model.ItemsPerPage + 1)
                         {
                             <input type="submit" name="Page" value="@i" class="btn btn-success mb-2" />
-
-
                         }
                         else
                         {
                             <input type="submit" name="Page" value="@i" class="btn btn-info mb-2" />
                         }
-
-
                     }
-
                 }
-
             }
-
         </div>
         <input type="submit" name="Paging" value="Next" class="btn btn-info mb-2 DisableBTN2" />
         <input type="submit" name="Page" value="@lastPage" class="btn btn-info mb-2 DisableBTN2" />
@@ -167,16 +155,7 @@
         </tbody>
     </table>
 
-
-
-
-
     <input id="SortingValue" type="hidden" name="Sorting" value="@Model.Sorting" /> @*has to be in the very end to pass the value if no other sort by selected*@
-
-    <input id="LastPage" type="hidden" value="@Model.LastPage" />
-    <input id="FirstPage" type="hidden" value="@Model.FirsPage" />
-
-
 
 </form>
 
@@ -184,10 +163,10 @@
 
 
 <script>
-
+    // disable next page and last page buttons once last page is displayed on screen
     var LastPageAndNextPge = document.querySelectorAll(".DisableBTN2")
 
-    if (document.querySelector("#LastPage").value) {
+    if (@Model.LastPage.ToString().ToLower()) {
         for(var i = 0; i < LastPageAndNextPge.length; i++) {
             LastPageAndNextPge[i].disabled = true;
         }  
@@ -198,9 +177,11 @@
         }      
     }
 
+
+    // disable first page and previous page buttons once first page is displayed on screen
     var FirsPageAndPriviousPage = document.querySelectorAll(".DisableBTN1")
 
-    if (document.querySelector("#FirstPage").value) {
+    if (@Model.FirsPage.ToString().ToLower()) {
         for(var i = 0; i < FirsPageAndPriviousPage.length; i++) {
             FirsPageAndPriviousPage[i].disabled = true;
         }  
@@ -211,28 +192,11 @@
         }      
     }
 
-
-
-
-
-
+    // reset values after search was clicked 
     function SearchReset() {
         document.querySelector("#SkipValue").value = 0;
         document.querySelector("#SortingValue").value = null;
-
     }
-
-    // Fuction to hide content
-    function HideContent() {
-        var x = document.querySelector(".DivToHide")
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
-    }
-
-
 
 </script>
 
@@ -240,8 +204,6 @@
     .SmallText {
         width: 100px;
     }
-
-  
 </style>
 
 
