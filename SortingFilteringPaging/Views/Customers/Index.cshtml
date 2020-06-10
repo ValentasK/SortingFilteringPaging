@@ -1,4 +1,5 @@
-﻿@model IEnumerable<SortingFilteringPaging.Models.Customer>
+﻿
+@model SortingFilteringPaging.Models.CustomerViewModel;
 
 @{
     ViewData["Title"] = "Index";
@@ -9,12 +10,12 @@
     <a asp-action="Create">Create New</a>
 </p>
 
-<h5>Total Customers:  @ViewBag.allRecords</h5>
+<h5>Total Customers:  @Model.AllRecords </h5>
 
 <form asp-action="Index" method="get">
     <div class="form-row align-items-center">
         <div class="col-auto">
-            <input type="text" name="SearchString" class="form-control mb-2 d-inline" value="@ViewBag.SearchString" placeholder="...Search" />
+            <input type="text" name="SearchString" class="form-control mb-2 d-inline" value="@Model.SearchString" placeholder="...Search" />
         </div>
 
         <div class="col-auto">
@@ -24,7 +25,7 @@
         <div class="dropdown">
             <label for="ItemsInPage">Records per page</label>
             <select name="ItemsInPage">
-                <option value="@ViewBag.ItemsPerPage">@ViewBag.ItemsPerPage</option>
+                <option value="@Model.ItemsPerPage">@Model.ItemsPerPage</option>
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="25">25</option>
@@ -37,58 +38,58 @@
         </div>
 
         <div class="col-auto">
-            <input id="SkipValue" type="hidden" name="SkipValue" value="@ViewBag.SkipValue" class="btn btn-info mb-2 SmallText" />
-            @{ 
-                int currentShowing = @ViewBag.SkipValue + @ViewBag.ItemsPerPage;
+            <input id="SkipValue" type="hidden" name="SkipValue" value="@Model.SkipValue" class="btn btn-info mb-2 SmallText" />
+            @{
+                int currentShowing = @Model.SkipValue + @Model.ItemsPerPage;
             }
-            <h6>Current showing between: @ViewBag.SkipValue and @currentShowing   </h6>
-            
+            <h6>Current showing between: @Model.SkipValue and @currentShowing   </h6>
+
         </div>
 
     </div>
 
 
     <div>
-            <input type="submit" name="Page" value="1" class="btn btn-info mb-2" />
-            <input type="submit" name="Paging" value="Previous" class="btn btn-info mb-2" />
+        <input type="submit" name="Page" value="1" class="btn btn-info mb-2 DisableBTN1" />
+        <input type="submit" name="Paging" value="Previous" class="btn btn-info mb-2 DisableBTN1" />
 
-            <div class="pagination d-inline-block">
-                @{
-                    int j = @ViewBag.SkipValue / @ViewBag.ItemsPerPage;
-                    int lastPage = @ViewBag.allRecords / @ViewBag.ItemsPerPage +1;
-                }
+        <div class="pagination d-inline-block">
+            @{
+                int j = @Model.SkipValue / @Model.ItemsPerPage;
+                int lastPage = @Model.AllRecords / Model.ItemsPerPage + 1;
+            }
 
-                @{
+            @{
 
-                    for (int i = j - 7; i < 7 + j; i++)
+                for (int i = j - 5; i < 8 + j; i++)
+                {
+                    if (i > 0 && i < lastPage + 1)
                     {
-                        if (i > 0 && i < lastPage + 1)
+                        if (i == @Model.SkipValue / @Model.ItemsPerPage + 1)
                         {
-                            if (i == @ViewBag.SkipValue / @ViewBag.ItemsPerPage +1)
-                            {
-                                <input type="submit" name="Page" value="@i" class="btn btn-success mb-2" />
-
-
-                            }
-                            else
-                            {
-                                <input type="submit" name="Page" value="@i" class="btn btn-info mb-2" />
-                            }
+                            <input type="submit" name="Page" value="@i" class="btn btn-success mb-2" />
 
 
                         }
+                        else
+                        {
+                            <input type="submit" name="Page" value="@i" class="btn btn-info mb-2" />
+                        }
+
 
                     }
 
                 }
 
-            </div>
-            <input type="submit" name="Paging" value="Next" class="btn btn-info mb-2" />    
-            <input type="submit" name="Page" value="@lastPage" class="btn btn-info mb-2" />
+            }
+
         </div>
+        <input type="submit" name="Paging" value="Next" class="btn btn-info mb-2 DisableBTN2" />
+        <input type="submit" name="Page" value="@lastPage" class="btn btn-info mb-2 DisableBTN2" />
+    </div>
 
     <div>
-        <p>Sort by: @ViewBag.sorting</p>
+        <p>Sort by: @Model.Sorting</p>
     </div>
 
 
@@ -96,37 +97,37 @@
         <thead>
             <tr>
                 <th>
-                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.FirstName)" class="" />
+                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.Customers[0].FirstName)" class="" />
                 </th>
                 <th>
-                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.LastName)" class="" />
+                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.Customers[0].LastName)" class="" />
                 </th>
                 <th>
-                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.MaleFemale)" class="" />
+                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.Customers[0].MaleFemale)" class="" />
                 </th>
                 <th>
-                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.Age)" class="" />
+                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.Customers[0].Age)" class="" />
                 </th>
                 <th>
-                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.PhoneNumber)" class="" />
+                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.Customers[0].PhoneNumber)" class="" />
                 </th>
                 <th>
-                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.EmailAddress)" class="" />
+                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.Customers[0].EmailAddress)" class="" />
                 </th>
                 <th>
-                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.City)" class="" />
+                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.Customers[0].City)" class="" />
                 </th>
                 <th>
-                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.Street)" class="" />
+                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.Customers[0].Street)" class="" />
                 </th>
                 <th>
-                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.HouseNr)" class="" />
+                    <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.Customers[0].HouseNr)" class="" />
                 </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Customers)
             {
                 <tr>
                     <td>
@@ -170,7 +171,10 @@
 
 
 
-    <input id="SortingValue" type="hidden" name="Sorting" value="@ViewBag.sorting" /> @*has to be in the very end to pass the value if no other sort by selected*@
+    <input id="SortingValue" type="hidden" name="Sorting" value="@Model.Sorting" /> @*has to be in the very end to pass the value if no other sort by selected*@
+
+    <input id="LastPage" type="hidden" value="@Model.LastPage" />
+    <input id="FirstPage" type="hidden" value="@Model.FirsPage" />
 
 
 
@@ -180,6 +184,37 @@
 
 
 <script>
+
+    var LastPageAndNextPge = document.querySelectorAll(".DisableBTN2")
+
+    if (document.querySelector("#LastPage").value) {
+        for(var i = 0; i < LastPageAndNextPge.length; i++) {
+            LastPageAndNextPge[i].disabled = true;
+        }  
+    }
+    else {
+        for (var i = 0; i < LastPageAndNextPge.length; i++) {
+         LastPageAndNextPge[i].disabled = false;
+        }      
+    }
+
+    var FirsPageAndPriviousPage = document.querySelectorAll(".DisableBTN1")
+
+    if (document.querySelector("#FirstPage").value) {
+        for(var i = 0; i < FirsPageAndPriviousPage.length; i++) {
+            FirsPageAndPriviousPage[i].disabled = true;
+        }  
+    }
+    else {
+        for (var i = 0; i < FirsPageAndPriviousPage.length; i++) {
+         FirsPageAndPriviousPage[i].disabled = false;
+        }      
+    }
+
+
+
+
+
 
     function SearchReset() {
         document.querySelector("#SkipValue").value = 0;
@@ -196,6 +231,8 @@
             x.style.display = "none";
         }
     }
+
+
 
 </script>
 

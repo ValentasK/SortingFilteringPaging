@@ -23,13 +23,19 @@ namespace SortingFilteringPaging.Controllers
         // GET: Customers
         public async Task<IActionResult> Index(string SearchString,int Page, string Paging, string Sorting, int ItemsInPage = 25, int SkipValue = 0 )
         {
+
+            //SeedData sd = new SeedData();
+            //_context.AddRange(sd.GeneratedCustomers(100259));
+            //_context.SaveChanges();
+            
+
             int skip = SkipValue;
             int totalRecords = _context.Customer.Count(); // get the number of all the records
+            bool isItLastPage = false;
+            bool isItFirstPage = false;
 
             if (!String.IsNullOrEmpty(Paging))
-            {
-                
-                
+            {              
                     if (Paging == "Next")
                     {
                         skip = skip + ItemsInPage;
@@ -41,9 +47,7 @@ namespace SortingFilteringPaging.Controllers
                             skip = skip - ItemsInPage;
                         }
 
-                    }
-                
-         
+                    }                     
             }
 
 
@@ -53,13 +57,7 @@ namespace SortingFilteringPaging.Controllers
                 skip = Page * ItemsInPage;
             }
 
-            ViewBag.SkipValue = skip; // sends current skipped pages number
 
-            ViewBag.ItemsPerPage = ItemsInPage; // sends items per page to view 
-
-            ViewBag.SearchString = SearchString; // sends searchstring to view 
-
-            ViewBag.sorting = Sorting;
 
             List<Customer> customers = new List<Customer>(); // create new list of customers          
 
@@ -108,7 +106,6 @@ namespace SortingFilteringPaging.Controllers
                     x.Street.ToLower().Contains(SearchString.ToLower()) ||
                     x.HouseNr.ToLower().Contains(SearchString.ToLower())).Count();
 
-
             }
             else
             {
@@ -126,11 +123,28 @@ namespace SortingFilteringPaging.Controllers
                 
             }
 
-            ViewBag.allRecords = totalRecords;
+            isItLastPage = totalRecords <= ItemsInPage + skip ;
+            isItFirstPage = skip == 0;
 
-            // return View(await _context.Customer.ToListAsync());
+            CustomerViewModel cvm = new CustomerViewModel()
+            {
+                SkipValue = skip,
+                ItemsPerPage = ItemsInPage,
+                SearchString = SearchString,
+                Sorting = Sorting,
+                AllRecords = totalRecords,
+                Customers = customers,
+                LastPage = isItLastPage,
+                FirsPage = isItFirstPage
+            };
 
-            return View(customers);
+            //ViewBag.SkipValue = skip; // sends current skipped pages number
+            //ViewBag.ItemsPerPage = ItemsInPage; // sends items per page to view 
+            //ViewBag.SearchString = SearchString; // sends searchstring to view 
+            //ViewBag.sorting = Sorting;
+            //ViewBag.allRecords = totalRecords;
+
+            return View(cvm);
         }
 
         // GET: Customers/Details/5
