@@ -37,13 +37,55 @@
         </div>
 
         <div class="col-auto">
-            <input type="submit" name="Paging" value="Previous" class="btn btn-info mb-2" />
-            <input id="SkipValue" type="text" name="SkipValue" value="@ViewBag.SkipValue" class="btn btn-info mb-2 SmallText" />
-            <input type="submit" name="Paging" value="Next" class="btn btn-info mb-2" />
+            <input id="SkipValue" type="hidden" name="SkipValue" value="@ViewBag.SkipValue" class="btn btn-info mb-2 SmallText" />
+            @{ 
+                int currentShowing = @ViewBag.SkipValue + @ViewBag.ItemsPerPage;
+            }
+            <h6>Current showing between: @ViewBag.SkipValue and @currentShowing   </h6>
+            
         </div>
 
     </div>
 
+
+    <div>
+            <input type="submit" name="Page" value="1" class="btn btn-info mb-2" />
+            <input type="submit" name="Paging" value="Previous" class="btn btn-info mb-2" />
+
+            <div class="pagination d-inline-block">
+                @{
+                    int j = @ViewBag.SkipValue / @ViewBag.ItemsPerPage;
+                    int lastPage = @ViewBag.allRecords / @ViewBag.ItemsPerPage +1;
+                }
+
+                @{
+
+                    for (int i = j - 7; i < 7 + j; i++)
+                    {
+                        if (i > 0 && i < lastPage + 1)
+                        {
+                            if (i == @ViewBag.SkipValue / @ViewBag.ItemsPerPage +1)
+                            {
+                                <input type="submit" name="Page" value="@i" class="btn btn-success mb-2" />
+
+
+                            }
+                            else
+                            {
+                                <input type="submit" name="Page" value="@i" class="btn btn-info mb-2" />
+                            }
+
+
+                        }
+
+                    }
+
+                }
+
+            </div>
+            <input type="submit" name="Paging" value="Next" class="btn btn-info mb-2" />    
+            <input type="submit" name="Page" value="@lastPage" class="btn btn-info mb-2" />
+        </div>
 
     <div>
         <p>Sort by: @ViewBag.sorting</p>
@@ -124,7 +166,13 @@
         </tbody>
     </table>
 
+
+
+
+
     <input id="SortingValue" type="hidden" name="Sorting" value="@ViewBag.sorting" /> @*has to be in the very end to pass the value if no other sort by selected*@
+
+
 
 </form>
 
@@ -155,6 +203,8 @@
     .SmallText {
         width: 100px;
     }
+
+  
 </style>
 
 

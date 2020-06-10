@@ -26,7 +26,7 @@ namespace SortingFilteringPaging.Data
                     EmailAddress = names[randomNumber.Next(0, names.Count)] + randomNumber.Next(1,99999)+"@gmail.com",
                     City = cities[randomNumber.Next(0, cities.Count)],
                     Street = streets[randomNumber.Next(0, streets.Count)],
-                    HouseNr = randomNumber.Next(0, 350).ToString()
+                    HouseNr = randomNumber.Next(1, 350).ToString()
 
                 });
             }
@@ -48,14 +48,32 @@ namespace SortingFilteringPaging.Data
                 "Malinda", "Ping", "Ashlyn", "Harriet", "Santina", "Vernie", "Evelina", "Katrina",
                 "Rema", "Marge", "Rolande", "Shae", "Dina", "Lucretia", "Malka", "Eustolia", "Mandi",
                 "Joannie", "Chu", "Sindy", "Concha", "Arminda", "Latoyia", "Leola", "Ursula", "Margherita",
-                "Winifred", "Ronda" };
+                "Winifred", "Ronda","Ralphie","Shamima","Anisah","Gail","Cherie","Danielius","Harper","Malachi",
+                "Leoni","Lilly-Mai","Samah","Sahib","Tyrese","Aiesha","Kaitlyn","Umar","Enya","Ray","Isaac","Jordi",
+                "Cecilia","Helin","Maiya","Gwion","Ibrar","Shereen","Zakariyah","Keely","Meg","Teodor","Ammar","Calista",
+                "Eduardo","Priya","Waqar","Nicholas","Donald","Colin","Jasper","Kerrie","Mared","Marion","Hisham","Adem",
+                "Jamie-Lee","Belle","Bobbi","Avneet","Blaine","Stephen","Stuart","Kyal","Edmund","Theresa","Findlay",
+                "Ruby-Rose","Maaria","Kacper","Philippa","Katarina","Esme-Rose","Zishan","Brody","Kia","Dylan","Wil",
+                "Khadeeja","Presley","Lia","Raisa","Ashlyn","Harlee","Maurice","Goulding","Alishia","Misha","Matilda",
+                "Danyaal","Nikita","Macy","Gus","Lacy","Rudi","Tyrell","Kaylen","Diana","Cillian","Viktor","Valode",
+                "Kestas","Kestutis","Aurimas","Mantas","Paulius","Milda","Daiva","Gita","Loreta","Viktorija","Gedas",
+                "Tomas","Augutis","Greta","Karolis","Karolina","Viktoras","Vale","Lilly","Milli","Bella","Maddison",
+                "Caitlin","Safiyyah","Agnes","Kiaan","Tai","Evan","Davina","Harleigh","Jolene"};
 
         List<string> surnames = new List<string>() { "Kelley", "Carter", "Salazar", "Osborne", "Santiago",
                 "Luna", "Wilson", "Craig", "Willis", "Frank", "Johnson", "Cunningham", "Rice", "Carter", "Lloyd",
                 "Bryant", "Sawyer", "Barton", "Butler", "Taylor", "Burgess", "Harper", "Peters", "Steele", "Rodriguez",
                 "Flores", "Bass", "Brewer", "Graves", "Morrison", "Craig", "Ayala", "Tate", "Park", "Campbell", "Love",
                 "Horton", "Palmer", "Marsh", "Knowles", "Carroll", "Cartwright", "Francis", "Schneider", "Clarke", "Reyes",
-                "Hammond", "Perkins", "Hampton", "Hardy" };
+                "Hammond", "Perkins", "Hampton", "Hardy","England","Connelly","Berna","Haworth","Mueller","Orr","Kim","Costa",
+                "Davila","Ventura","Barron","Morton","Cannon","Parry","Forrest","Rich","Good","Denton","Wells","Dunn","Sharp",
+                "Merritt","Berry","Salas","Torres","Ramsay","Hull","Murphy","Naylor","Houghton","Bowden","Beck","Emery","Wilde",
+                "Reyna","Sharples","Welch","Storey","Duke","Finley","Baldwin","Macleod","Pugh","Keller","Williams","Bowler","Sharpe",
+                "Dawe","Kennedy","Sadler","Villalobos","Hooper","Beasley","Keenan","Larsen","Couch","Glenn","Wolfe","Hurst","Stark",
+                "Frederick","Benton","Vance","Morrison","Puckett","Griffin","Woodley","Person","Hutchings","Mejia","Whitfield","Jones",
+                "Thatcher","Dorsey","Leblanc","Glover","Lewis","Mercer","Weeks","Booker","Higgins","Beaumont","Mclaughlin","Pennington",
+                "Easton","Mercado","Chase","Pritchard","Bullock"," Whitworth","Maldonado","Anderson","Clegg","Sheridan","Kidd","Miles",
+                "Vargas","Barker","Horton"};
 
         List<string> gender = new List<string>() { "Male", "Female" };
 

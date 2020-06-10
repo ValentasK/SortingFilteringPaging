@@ -21,24 +21,36 @@ namespace SortingFilteringPaging.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index(string SearchString, string Paging, string Sorting, int ItemsInPage = 25, int SkipValue = 0 )
+        public async Task<IActionResult> Index(string SearchString,int Page, string Paging, string Sorting, int ItemsInPage = 25, int SkipValue = 0 )
         {
             int skip = SkipValue;
+            int totalRecords = _context.Customer.Count(); // get the number of all the records
 
             if (!String.IsNullOrEmpty(Paging))
             {
-                if (Paging == "Next")
-                {
-                    skip = skip + ItemsInPage;
-                }
-                if (Paging == "Previous")
-                {
-                    if (skip - ItemsInPage >= 0)
+                
+                
+                    if (Paging == "Next")
                     {
-                        skip = skip - ItemsInPage;
+                        skip = skip + ItemsInPage;
                     }
+                    if (Paging == "Previous")
+                    {
+                        if (skip - ItemsInPage >= 0)
+                        {
+                            skip = skip - ItemsInPage;
+                        }
 
-                }
+                    }
+                
+         
+            }
+
+
+            if (Page != 0)
+            {
+                Page = Page - 1;
+                skip = Page * ItemsInPage;
             }
 
             ViewBag.SkipValue = skip; // sends current skipped pages number
@@ -46,8 +58,6 @@ namespace SortingFilteringPaging.Controllers
             ViewBag.ItemsPerPage = ItemsInPage; // sends items per page to view 
 
             ViewBag.SearchString = SearchString; // sends searchstring to view 
-
-            ViewBag.allRecords = _context.Customer.Count(); // get the number of all the records
 
             ViewBag.sorting = Sorting;
 
@@ -69,7 +79,35 @@ namespace SortingFilteringPaging.Controllers
                    x.HouseNr.ToLower().Contains(SearchString.ToLower())).OrderBy(Sorting)
                    .Skip(skip).Take(ItemsInPage).ToList();
 
+
                 }
+                else
+                {
+                    customers = _context.Customer.Where(x =>
+                    x.FirstName.ToLower().Contains(SearchString.ToLower()) ||
+                    x.LastName.ToLower().Contains(SearchString.ToLower()) ||
+                    x.MaleFemale.ToLower().Contains(SearchString.ToLower()) ||
+                    x.Age.ToString().ToLower().Contains(SearchString.ToLower()) ||
+                    x.PhoneNumber.ToLower().Contains(SearchString.ToLower()) ||
+                    x.EmailAddress.ToLower().Contains(SearchString.ToLower()) ||
+                    x.City.ToLower().Contains(SearchString.ToLower()) ||
+                    x.Street.ToLower().Contains(SearchString.ToLower()) ||
+                    x.HouseNr.ToLower().Contains(SearchString.ToLower()))
+                    .Skip(skip).Take(ItemsInPage).ToList();
+
+                }
+
+                 totalRecords = _context.Customer.Where(x =>          // number of customers matching the search string
+                    x.FirstName.ToLower().Contains(SearchString.ToLower()) ||
+                    x.LastName.ToLower().Contains(SearchString.ToLower()) ||
+                    x.MaleFemale.ToLower().Contains(SearchString.ToLower()) ||
+                    x.Age.ToString().ToLower().Contains(SearchString.ToLower()) ||
+                    x.PhoneNumber.ToLower().Contains(SearchString.ToLower()) ||
+                    x.EmailAddress.ToLower().Contains(SearchString.ToLower()) ||
+                    x.City.ToLower().Contains(SearchString.ToLower()) ||
+                    x.Street.ToLower().Contains(SearchString.ToLower()) ||
+                    x.HouseNr.ToLower().Contains(SearchString.ToLower())).Count();
+
 
             }
             else
@@ -88,7 +126,7 @@ namespace SortingFilteringPaging.Controllers
                 
             }
 
-
+            ViewBag.allRecords = totalRecords;
 
             // return View(await _context.Customer.ToListAsync());
 
