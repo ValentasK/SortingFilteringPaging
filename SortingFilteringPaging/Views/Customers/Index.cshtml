@@ -1,17 +1,17 @@
 ﻿
-@model SortingFilteringPaging.Models.CustomerViewModel;
+@model SortingFilteringPaging.Models.CustomerViewModel; 
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New Customer</a>
 </p>
 
-<h5>Total Customers:  @Model.AllRecords </h5>
+<h5>Total Customers:  @Model.AllRecords </h5> @*indicates total records or total records matching a search string*@
 
-<form asp-action="Index" method="get">
+<form asp-action="Index" method="get">   @*whole page is one big form*@ 
     <div class="form-row align-items-center">
         <div class="col-auto">
             <input type="text" name="SearchString" class="form-control mb-2 d-inline" value="@Model.SearchString" placeholder="...Search" />
@@ -24,7 +24,7 @@
         <div class="dropdown">
             <label for="ItemsInPage">Records per page</label>
             <select name="ItemsInPage">
-                <option value="@Model.ItemsPerPage">@Model.ItemsPerPage</option>
+                <option value="@Model.ItemsPerPage">@Model.ItemsPerPage</option> @*indicates items per page received from viewModel*@
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="25">25</option>
@@ -40,8 +40,9 @@
             <input id="SkipValue" type="hidden" name="SkipValue" value="@Model.SkipValue" class="btn btn-info mb-2 SmallText" />
             @{
                 int currentShowing = @Model.SkipValue + @Model.ItemsPerPage;
+                int fromShowing = @Model.SkipValue + 1;
             }
-            <h6>Current showing between: @Model.SkipValue and @currentShowing   </h6>
+        <h6>Current showing between: @fromShowing and @currentShowing   </h6>
         </div>
     </div>
 
@@ -80,10 +81,14 @@
         <p>Sort by: @Model.Sorting</p>
     </div>
 
+    @*The table below displays all the records from the CustomerViewModel*@
 
     <table class="table">
         <thead>
             <tr>
+                <th>
+                    <input type="submit" name="" value="Nr" class="" />
+                </th>
                 <th>
                     <input type="submit" name="Sorting" onclick="SearchReset()" value="@Html.DisplayNameFor(model => model.Customers[0].FirstName)" class="" />
                 </th>
@@ -114,43 +119,51 @@
                 <th></th>
             </tr>
         </thead>
+
+        @{ int nr = @Model.SkipValue;}
         <tbody>
             @foreach (var item in Model.Customers)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MaleFemale)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Age)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PhoneNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EmailAddress)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.City)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Street)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HouseNr)
-                    </td>
-                    @*<td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>*@
-                </tr>
+            <tr>
+                <td>
+                    @{ nr = nr + 1;} <h6>@nr</h6> 
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaleFemale)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Street)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HouseNr)
+                </td>
+
+                @*Edit, Details, Delete was not used in this project*@
+
+                @*<td>
+            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        </td>*@
+            </tr>
             }
         </tbody>
     </table>
